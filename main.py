@@ -39,8 +39,7 @@ def reconhecer_letra(dedos,landmarks, movimento=False, angulo_entre_dedos=None):
         (0, 1, 0, 0, 0): "D",  
         (0, 0, 0, 0, 0): "E",  
         (1, 0, 1, 1, 1): "F",  
-        (0, 0, 0, 0, 1): "I", 
-        (1, 1, 0, 0, 0): "L",  
+        (0, 0, 0, 0, 1): "I",  
         (0, 0, 1, 1, 1): "T",  
         (1, 0, 0, 0, 1): "Y",  
         (0, 1, 1, 1, 0): "W"  
