@@ -4,9 +4,9 @@
 Este projeto utiliza **OpenCV** e **MediaPipe** para detectar mãos via webcam e reconhecer **algumas letras do alfabeto em LIBRAS (Língua Brasileira de Sinais)** com base nas posições dos dedos.
 
 ⚠️ **Letras atualmente reconhecidas:**  
-A, B, C, D, E, F, G, H, I, K, L, M, N, O, R, S, T, U, V, W, Y.
+A, B, C, D, E, F, G, H, I, K, L, M, N, O, R, S, T, U, V, W, X, Y.
 
-> As letras J, P, Q, X e Z ainda **não são suportadas** devido a limitações no reconhecimento de movimento e orientação.
+> As letras J, P, Q e Z ainda **não são suportadas** devido a limitações no reconhecimento de movimento e orientação.
 
 
 
@@ -47,4 +47,5 @@ N: Apenas o mindinho deve estar abaixado.
 
 T: Abaixe os dedos indicador e polegar.
 
-Feito com 💙 para promover acessibilidade com tecnologia.
+X: Estique os dedos anelar e mindinho.
+
