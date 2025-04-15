@@ -132,8 +132,8 @@ def reconhecer_letra(dedos,landmarks, movimento=False, angulo_entre_dedos=None):
     return alfabeto_simplificado.get(key, "?")
 
 
-# cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture('./assets/backup-video.mp4')
+cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture('./assets/backup-video.mp4')
 
 while True:
     ret, frame = cap.read()
