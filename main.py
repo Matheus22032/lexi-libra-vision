@@ -16,6 +16,9 @@ def calcular_angulo(v1, v2):
     angulo = math.degrees(math.acos(min(1.0, max(-1.0, cos_theta))))
     return angulo
 
+def calcular_distancia(p1, p2):
+    return math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2 + (p1.z - p2.z) ** 2)
+
 def get_finger_states(landmarks):
     dedos = []
 
@@ -37,7 +40,7 @@ def reconhecer_letra(dedos,landmarks, movimento=False, angulo_entre_dedos=None):
         (1, 0, 0, 0, 0): "A", 
         (0, 1, 1, 1, 1): "B",  
         (0, 1, 0, 0, 0): "D",  
-        (0, 0, 0, 0, 0): "E",  
+        # (0, 0, 0, 0, 0): "E",  
         (1, 0, 1, 1, 1): "F",  
         (0, 0, 0, 0, 1): "I",  
         (0, 0, 1, 1, 1): "T",  
@@ -47,7 +50,46 @@ def reconhecer_letra(dedos,landmarks, movimento=False, angulo_entre_dedos=None):
 
     key = tuple(dedos)
 
+
+    if key == (0, 0, 0, 0, 0):
+        # Verifica se os dedos estão curvados (distância entre ponta e MCP)
+        dedos_curvados = []
+        for tip, mcp in zip([4, 8, 12, 16, 20], [2, 5, 9, 13, 17]):
+            distancia = calcular_distancia(landmarks[tip], landmarks[mcp])
+            dedos_curvados.append(distancia)
+
+        # Distância entre pontas dos dedos (para C, O ou S)
+        dist_entre_pontas = (
+            calcular_distancia(landmarks[8], landmarks[12]) +
+            calcular_distancia(landmarks[12], landmarks[16]) +
+            calcular_distancia(landmarks[16], landmarks[20])
+        )
+
+        media_curvatura = sum(dedos_curvados) / len(dedos_curvados)
+
+        if dist_entre_pontas < 0.10:
+            return "O"
+
+        elif media_curvatura < 0.07 and dist_entre_pontas < 0.15:
+            return "E"
+
+        elif 0.07 <= media_curvatura <= 0.12 and 0.10 < dist_entre_pontas < 0.25:
+            return "S"
+        
+        else:
+            return "C"
+
+
     if key == (0, 1, 1, 0, 0):
+        indice_tip = landmarks[8]
+        medio_tip = landmarks[12]
+
+        distancia_x = abs(indice_tip.x - medio_tip.x)
+        distancia_y = abs(indice_tip.y - medio_tip.y)
+
+        if distancia_x < 0.03 and distancia_y < 0.03:
+            return "R"
+        
         if angulo_entre_dedos is not None:
             if angulo_entre_dedos < 10:
                 return "U"
@@ -65,6 +107,10 @@ def reconhecer_letra(dedos,landmarks, movimento=False, angulo_entre_dedos=None):
                 return "L"
             else:
                 return "G"
+            
+            # Letra C
+
+    
 
 
     return alfabeto_simplificado.get(key, "?")
