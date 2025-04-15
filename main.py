@@ -124,11 +124,6 @@ def reconhecer_letra(dedos,landmarks, movimento=False, angulo_entre_dedos=None):
             else:
                 return "G"
             
-            # Letra C
-
-    
-
-
     return alfabeto_simplificado.get(key, "?")
 
 

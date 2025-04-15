@@ -49,3 +49,7 @@ T: Abaixe os dedos indicador e polegar.
 
 X: Estique os dedos anelar e mindinho.
 
+## Alterar de vídeo para webcam
+
+- Para utilizar a sua WEBCAM no projeto, deixe `cap = cv2.VideoCapture(0)` na linha 130.
+- Para utilizar um vídeo específico, comente o altere o valor `0` pelo caminho do seu vídeo, como está comentado na linha 131 (`cap = cv2.VideoCapture('./assets/backup-video.mp4')`). 
