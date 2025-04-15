@@ -27,7 +27,7 @@ python main.py
 ## ✋ Como fazer as letras:
 Referência visual das posições das mãos para formar cada letra:
 
-(![Alfabeto base](./assets/image.png))
+![Alfabeto base](./assets/image.png)
 
 ## ⚙️ Adaptações de sinais
 
