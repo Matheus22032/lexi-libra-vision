@@ -40,12 +40,16 @@ def reconhecer_letra(dedos,landmarks, movimento=False, angulo_entre_dedos=None):
         (1, 0, 0, 0, 0): "A", 
         (0, 1, 1, 1, 1): "B",  
         (0, 1, 0, 0, 0): "D",  
-        # (0, 0, 0, 0, 0): "E",  
+        (1, 1, 1, 0, 0): "K",  
         (1, 0, 1, 1, 1): "F",  
         (0, 0, 0, 0, 1): "I",  
+        (0, 1, 0, 0, 1): "H",
         (0, 0, 1, 1, 1): "T",  
         (1, 0, 0, 0, 1): "Y",  
-        (0, 1, 1, 1, 0): "W"  
+        (0, 1, 1, 1, 0): "W",
+        (1, 1, 1, 1, 0): "N",
+        (0, 0, 0, 1, 1): "X",
+        (1, 1, 1, 1, 1): "M"  
     }
 
     key = tuple(dedos)
@@ -67,7 +71,7 @@ def reconhecer_letra(dedos,landmarks, movimento=False, angulo_entre_dedos=None):
 
         media_curvatura = sum(dedos_curvados) / len(dedos_curvados)
 
-        if dist_entre_pontas < 0.10:
+        if dist_entre_pontas < 0.07:
             return "O"
 
         elif media_curvatura < 0.07 and dist_entre_pontas < 0.15:
@@ -76,16 +80,30 @@ def reconhecer_letra(dedos,landmarks, movimento=False, angulo_entre_dedos=None):
         elif 0.07 <= media_curvatura <= 0.12 and 0.10 < dist_entre_pontas < 0.25:
             return "S"
         
-        else:
+        elif 0.07 < dist_entre_pontas < 0.12:
             return "C"
 
 
     if key == (0, 1, 1, 0, 0):
         indice_tip = landmarks[8]
+        indice_mcp = landmarks[5]
         medio_tip = landmarks[12]
+        medio_mcp = landmarks[9]
+
+        dist_indice = calcular_distancia(indice_tip, indice_mcp)
+        indicador_esticado = dist_indice > 0.07
+
+        # Verifica se o médio está apontando para baixo (tip mais abaixo que MCP)
+        medio_descendo = medio_tip.y > medio_mcp.y + 0.04
+
+        # Garante que estão na mesma horizontal (evita confusão com R)
+        alinhado_horizontalmente = abs(indice_tip.x - medio_tip.x) < 0.04
 
         distancia_x = abs(indice_tip.x - medio_tip.x)
         distancia_y = abs(indice_tip.y - medio_tip.y)
+
+        if indicador_esticado and medio_descendo and alinhado_horizontalmente:
+            return "P"
 
         if distancia_x < 0.03 and distancia_y < 0.03:
             return "R"
@@ -96,10 +114,8 @@ def reconhecer_letra(dedos,landmarks, movimento=False, angulo_entre_dedos=None):
             elif angulo_entre_dedos > 10:
                 return "V"
             else:
-                return "?" 
-        else:
-            return "U"  
-        
+                return "?"
+            
 
     if key == (1, 1, 0, 0, 0):
         if angulo_entre_dedos is not None:
